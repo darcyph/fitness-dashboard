@@ -36,6 +36,31 @@ server = function(input, output, session) {
   
   df <- kaggle_df
   
+  output$bmi_plot <- renderPlot({
+    ggplot(df, aes(x = BMI)) +
+      geom_histogram(bins = 30, fill = "steelblue") +
+      labs(
+        title = "Distribution of BMI",
+        x = "BMI",
+        y = "Count"
+      ) +
+      theme_minimal(base_size = 14)
+  })
+  
+  output$duration_plot <- renderPlot({
+    ggplot(df, aes(
+      x = factor(Experience_Level),
+      y = Session_Duration..hours.
+    )) +
+      geom_boxplot(fill = "coral1") +
+      labs(
+        title = "Session Duration by Experience Level",
+        x = "Experience Level",
+        y = "Hours"
+      ) +
+      theme_minimal(base_size = 14)
+  })
+  
   output$exercise_women_25_35 <- renderPlot({
     
     df_filtered <- df[df$Gender == "Female" & df$Age >= 25 & df$Age <= 35, ]
@@ -60,31 +85,6 @@ server = function(input, output, session) {
         title = "Exercise Frequency — Men aged 25-35",
         x = "Workout Type",
         y = "Count"
-      ) +
-      theme_minimal(base_size = 14)
-  })
-  
-  output$bmi_plot <- renderPlot({
-    ggplot(df, aes(x = BMI)) +
-      geom_histogram(bins = 30, fill = "steelblue") +
-      labs(
-        title = "Distribution of BMI",
-        x = "BMI",
-        y = "Count"
-      ) +
-      theme_minimal(base_size = 14)
-  })
-  
-  output$duration_plot <- renderPlot({
-    ggplot(df, aes(
-      x = factor(Experience_Level),
-      y = Session_Duration..hours.
-    )) +
-      geom_boxplot(fill = "coral1") +
-      labs(
-        title = "Session Duration by Experience Level",
-        x = "Experience Level",
-        y = "Hours"
       ) +
       theme_minimal(base_size = 14)
   })
